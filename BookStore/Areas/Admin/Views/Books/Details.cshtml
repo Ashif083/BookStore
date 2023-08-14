@@ -1,0 +1,121 @@
+﻿@model BookStore.Models.Books
+@{
+    ViewData["Title"] = "Details";
+}
+<br />
+
+<h2 class="text-secondary"><i class="fa-solid fa-book-bookmark"></i>&nbsp;Book Information</h2>
+<div class="p-4 rounded border">
+    <h3 style="color:red">@ViewBag.message</h3>
+    <div class="row">
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <strong><label asp-for="BookName">Book Name:</label></strong>
+                </div>
+                <div class="col-8">
+                    <span>@Model.BookName</span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group row">
+                <div class="col-4">
+                    <strong><label asp-for="AuthorName">Author Name:</label></strong>
+                </div>
+                <div class="col-8">
+                    <span>@Model.AuthorName</span>
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <strong><label asp-for="Publisher">Publisher:</label></strong>
+                </div>
+                <div class="col-8">
+                    <span>@Model.Publisher</span>
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <strong><label asp-for="BookTypeId">Genre:</label></strong>
+                </div>
+                <div class="col-8">
+                    <span>@Model.BookTypes.BookType</span>
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <strong><label asp-for="Price">Price:</label></strong>
+                </div>
+                <div class="col-8">
+                    <span>@Model.Price</span>
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <strong><label asp-for="AvailableQuantity">Available Quantity:</label></strong>
+                </div>
+                <div class="col-8">
+                    <span>@Model.AvailableQuantity</span>
+                </div>
+            </div>
+
+            @*<div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Image">Image:</label>
+                </div>
+                <div class="col-8">
+                    <span>@Model.Image</span>
+                </div>
+            </div>*@
+            <br />
+            <div class="form-group row">
+                <div class="col-4">
+                    <strong><label asp-for="SpecialTagId">Tag:</label></strong>
+                </div>
+                <div class="col-8">
+                    <span>@Model.SpecialTags.TagName</span>
+                </div>
+            </div>
+            <br />
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <strong><label asp-for="IsAvailable">Available:</label></strong>
+                </div>
+                <div class="col-8">
+                    @if(@Model.IsAvailable)
+                {
+                        <span><i class="fa-solid fa-square-check fa-lg" style="color: #286317;"></i></span>
+                    }
+                    else
+                    {
+                        <span><i class="fa-solid fa-circle-xmark fa-lg" style="color: #cf4d07;"></i></span>
+                    }
+
+                </div>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-success">Back to List</a>
+            </div>
+        </div>
+        <div class="col-4">
+            <img src="~/@Model.Image" width="50%" height="250px" style="border-radius: 5px;border: 1px solid #4d4d4d" />
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

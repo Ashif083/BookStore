@@ -1,0 +1,119 @@
+﻿@model BookStore.Models.Books
+@using System.Net.Http
+@using Microsoft.AspNetCore.Http
+@using BookStore.Utility
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+
+    List<Books> book = HttpContextAccessor.HttpContext.Session.Get<List<Books>>("book");
+    Books obj = null;
+    if (book != null)
+    {
+        obj = book.FirstOrDefault(x => x.Id == Model.Id);
+    }
+}
+
+@{
+    ViewData["Title"] = "Details";
+}
+<br />
+
+<h2 class="text-secondary"><i class="fa-solid fa-book-bookmark"></i>&nbsp;Book Information</h2>
+<div class="p-4 rounded border">
+    <h3 style="color:red">@ViewBag.message</h3>
+    <form asp-action="Details" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <strong><label asp-for="BookName">Book Name:</label></strong>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="BookName" class="form-control" disabled />
+                    </div>
+                </div>
+                <br />
+                <div class="form-group row">
+                    <div class="col-4">
+                        <strong><label asp-for="AuthorName">Author Name:</label></strong>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="AuthorName" class="form-control" disabled />
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <strong><label asp-for="Publisher">Publisher:</label></strong>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Publisher" class="form-control" disabled />
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <strong><label asp-for="BookTypeId">Genre:</label></strong>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="BookTypes.BookType" class="form-control" disabled />
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <strong><label asp-for="Price">Price:</label></strong>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Price" class="form-control" disabled />
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <div class="col-4">
+                    </div>
+                    <div class="col-8">
+                        @if (Model.IsAvailable)
+                        {
+                            if(obj!=null)
+                            {
+                                <input type="submit" class="btn btn-danger" asp-action="Remove" asp-route-id="@Model.Id" value="Remove from Cart"/>
+                            }
+                            else
+                            {
+                                 <input type="submit" class="btn btn-warning" value="&#128722;Add to Cart" />
+                            }
+                           
+                        }
+                    </div>
+                </div>
+
+                <br />
+                <div class="form-group">
+                    <a asp-action="Index" class="btn btn-success">Back to List</a>
+                </div>
+            </div>
+            <div class="col-4">
+                <img src="~/@Model.Image" width="50%" height="250px" style="border-radius: 5px;border: 1px solid #4d4d4d" />
+                @if (Model.IsAvailable)
+                {
+                    <img src="~/Images/available.png" width="170px" height="30px" />
+                }
+                else
+                {
+                    <img src="~/Images/out-of-stock.png" width="170px" height="30px" />
+                }
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

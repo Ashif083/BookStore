@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<IdentityRole>
+@{
+    ViewData["Title"] = "ViewAllRoles";
+}
+
+<div class="row pt-4">
+    <div class="col-6"><h1 class="text-secondary"><i class="fa-solid fa-list"></i>&nbsp;Roles</h1></div>
+    <div class="col-6 text-end"><a asp-controller="UserRoles" asp-action="Create" class="btn btn-primary" style="color: white;">&#x271A;&nbsp; Add New</a></div>
+    <br />
+</div>
+<br />
+<table class="table table-bordered table-striped" style="width: 100%;">
+    <thead>
+        <tr class="table-secondary">
+            <th style="width:30%">Id</th>
+            <th style="width:30%">Name</th>
+            <th style="width:40%"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>
+                    <a asp-controller="UserRoles" asp-action="Delete" asp-route-id="@item.Id" style="margin-right: 6px" class="btn btn-danger float-end"><i class="fa-solid fa-trash"></i></a>
+                    <a asp-controller="UserRoles" asp-action="Details" asp-route-id="@item.Id" style="margin-right: 6px" class="btn btn-secondary float-end">&#x2630;</a>
+                    <a asp-controller="UserRoles" asp-action="Edit" asp-route-id="@item.Id" style="margin-right: 6px; color: white;" class="btn btn-info float-end">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var save = '@TempData["save"]'
+            if (save != '') {
+                alertify.success(save);
+            }
+            var edit = '@TempData["edit"]'
+            if (edit != '') {
+                alertify.success(edit);
+            }
+            var del = '@TempData["delete"]'
+            if (del != '') {
+                alertify.error(del);
+            }
+        })
+    </script>
+}

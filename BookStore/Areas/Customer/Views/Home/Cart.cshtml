@@ -1,0 +1,60 @@
+﻿@using BookStore.Models
+@model List<Books>
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<h1 style="font-family:Arial"><i class="fa-solid fa-cart-shopping" style="color: #f47601;"></i>&nbsp;My Cart</h1>
+<br />
+<div class="row">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Book Name</th>
+                <th>Author Name</th>
+                <th>Genre</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="~/@item.Image" width="150px" height="150px"/>
+                    </td>
+                    <td>@item.BookName</td>
+                    <td>@item.AuthorName</td>
+                    <td>@item.BookTypes.BookType</td>
+                    <td>@item.Price</td>
+                    <td>
+                        <a asp-area="Customer" asp-action="Remove" asp-controller="Home" asp-route-id="@item.Id" class="btn">
+                            <i class="fa-solid fa-trash-can fa-lg" style="color: #e40101;"></i>
+                        </a>
+                    </td>
+                </tr>
+                
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-info">Back to Home</a>
+    </div>
+    <div class="col-md-6 d-flex justify-content-end flex-column">
+        <h3 class="align-self-end">Total: @Model.Sum(x => x.Price).ToString("N2")</h3>
+        @if(Model.Sum(x=>x.Price)>0)
+        {
+            <a asp-area="Customer" asp-action="Checkout" asp-controller="Order" class="btn btn-success mt-2 align-self-end"><i class="fa-solid fa-cart-shopping" style="color: #f5f5f5;"></i>&nbsp;Checkout</a>
+        }
+        
+    </div>
+</div>
+
+
+
+
+

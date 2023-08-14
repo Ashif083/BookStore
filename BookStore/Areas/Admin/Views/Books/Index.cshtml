@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Books>
+@{
+    ViewData["Title"] = "Books";
+}
+
+<div class="row pt-4">
+    <div class="col-6"><h1 class="text-secondary"><i class="fa-solid fa-address-book"></i>&nbsp;Books</h1></div>
+    <div class="col-6 text-end"><a asp-controller="Books" asp-action="Create" class="btn btn-primary" style="color: white;">&#x271A;&nbsp; Add New</a></div>
+    <br />
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-3">
+            <input type="number" class="form-control" name="lowAmount" placeholder="From..." />
+        </div>
+        <div class="col-3">
+            <input type="number" class="form-control" name="highAmount" placeholder="To..." />
+        </div>
+        <div class="col-3">
+            <input type="submit" value="Search By Price Range" class="btn btn-success"/>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</form>
+<br />
+<table class="table table-bordered table-striped" style="width: 100%;" id="myTable">
+    <thead>
+        <tr class="table-secondary">
+            <th>@Html.DisplayNameFor(x=>x.BookName)</th>
+            <th>@Html.DisplayNameFor(x=>x.AuthorName)</th>
+            <th>@Html.DisplayNameFor(x=>x.BookTypeId)</th>
+            <th>@Html.DisplayNameFor(x=>x.Price)</th>
+            <th>@Html.DisplayNameFor(x=>x.SpecialTagId)</th>
+            <th>@Html.DisplayNameFor(x=>x.IsAvailable)</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.BookName</td>
+                <td>@item.AuthorName</td>
+                <td>@item.BookTypes.BookType</td>
+                <td>@item.Price</td>
+                <td>@item.SpecialTags.TagName</td>
+                @if(@item.IsAvailable && @item.AvailableQuantity>=1)
+                {
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-square-check fa-2xl" style="color: #27f024;"></i></td>
+                }
+                else
+                {
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-circle-xmark fa-2xl" style="color: #fa0542;"></i></td>
+                    
+                }
+                
+                <td>
+                    <a asp-controller="Books" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a asp-controller="Books" asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary"><i class="fa-solid fa-circle-info"></i></a>
+                    <a asp-controller="Books" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#myTable').DataTable();
+        });
+        $(function() {
+            var save = '@TempData["save"]'
+            if (save != '') {
+                alertify.success(save);
+            }
+            var edit = '@TempData["edit"]'
+            if (edit != '') {
+                alertify.success(edit);
+            }
+            var del = '@TempData["delete"]'
+            if (del != '') {
+                alertify.error(del);
+            }
+        })
+    </script>
+}
+

@@ -1,0 +1,60 @@
+﻿@model BookStore.Models.Order
+<h1><i class="fa-solid fa-book-open"></i>&nbsp;BoiKini</h1>
+<h2>Order Details</h2>
+<div>
+    <p><strong>Name:</strong> @Model.Name</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+    <p><strong>Phone Number:</strong> @Model.Phone</p>
+    <p><strong>Delivery Address:</strong> @Model.Address</p>
+    <p><strong>Order Date:</strong> @Model.OrderDate</p>
+    <p><strong>Payment:&nbsp;</strong><i class="fa-solid fa-circle-check" style="color: #139f09;"></i>Completed</p>
+
+    <h3>Order Items:</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails)
+            {
+                <tr>
+                    <td>
+                        <img src="~/@item.Books.Image" height="150px" width="150px" />
+                    </td>
+                    <td>@item.Books.BookName</td>
+                    <td>@item.Books.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3>Total Price: @Model.OrderDetails.Sum(x => x.Books.Price).ToString("n")</h3>
+    
+</div>
+<div class="text-center">
+    <button id="printButton" class="btn btn-primary print-button" onclick="printOrderDetails()">Print</button>
+</div>
+@section Scripts {
+    <script>
+        function printOrderDetails() {
+            var printButton = document.getElementById("printButton");
+            printButton.style.display = "none";
+
+            window.print();
+            printButton.style.display = "block";
+        }
+        
+    </script>
+}
+
+    <style>
+    h1 {
+        text-align: center;
+        margin-top: 20px; 
+    }
+    
+</style>

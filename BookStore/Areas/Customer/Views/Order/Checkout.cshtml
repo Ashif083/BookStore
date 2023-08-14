@@ -1,0 +1,125 @@
+﻿@model BookStore.Models.Order
+@using BookStore.Utility
+@using Microsoft.AspNetCore.Http
+
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Order Details";
+}
+@{
+
+    List<Books> book = HttpContextAccessor.HttpContext.Session.Get<List<Books>>("book");
+
+    if (book == null)
+    {
+        book = new List<Books>();
+    }
+
+}
+<br />
+
+<h2 class="text-info">Order Details</h2>
+<form asp-action="CheckoutPost" method="post" enctype="multipart/form-data">
+    <div class="p-4 rounded border row">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+        </div>
+        <div class="col-6">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-8">
+                    <input type="hidden" asp-for="Id" />
+                    <input asp-for="Name" class="form-control" value="@Model.Name"/>
+                    
+                </div>
+
+            </div>
+            <br />
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Phone"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Phone" class="form-control" value="@Model.Phone" />
+                   
+                </div>
+
+            </div>
+            <br />
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Email"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Email" class="form-control" value="@Model.Email"/>
+                   
+                </div>
+
+            </div>
+            <br />
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Address"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Address" class="form-control" value="@Model.Address" required/>
+                </div>
+
+            </div>
+            <br />
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="OrderDate"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="OrderDate" type="datetime-local" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" readonly />
+                    <span asp-validation-for="OrderDate" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-6">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in book)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/@item.Image" height="100px" width="125px" />
+                            </td>
+                            <td>@item.BookName</td>
+                            <td>@item.Price</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="text-right">
+                <h3>Total Price : @book.Sum(c=>c.Price).ToString("N2")</h3>
+            </div>
+            <div class="form-group text-right">
+
+                <button type="submit"  class="btn btn-success" style="background-color: rgba(246,198,87,255); color: black; border: none;"><i class="fa-solid fa-credit-card"></i>&nbsp;Payment</button>
+
+            </div>
+        </div>
+
+
+    </div>
+</form>
+
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -1,0 +1,124 @@
+﻿@model BookStore.Models.Books
+@{
+    ViewData["Title"] = "Create";
+}
+<br />
+
+<h2 class="text-info">Add New Book</h2>
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="p-4 rounded border">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
+        </div>
+        <h3 style="color:red">@ViewBag.msg</h3>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="BookName"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="BookName" class="form-control" />
+                <span asp-validation-for="BookName" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="AuthorName"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="AuthorName" class="form-control" />
+                <span asp-validation-for="AuthorName" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Publisher"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Publisher" class="form-control" />
+                 <span asp-validation-for="AuthorName" class="text-danger"></span>
+              
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="BookTypeId"></label>
+            </div>
+            <div class="col-5">
+                <select asp-for="BookTypeId" asp-items="@ViewBag.bookTypeId" class="form-control"></select>
+                <span asp-validation-for="BookTypeId" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Price"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="AvailableQuantity"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="AvailableQuantity" class="form-control" />
+                <span asp-validation-for="AvailableQuantity" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Image"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Image" class="form-control" type="file" required/>
+                 <span asp-validation-for="BookName" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="SpecialTagId"></label>
+            </div>
+            <div class="col-5">
+                 <select asp-for="SpecialTagId" asp-items="@ViewBag.specialTagId" class="form-control"></select>
+                <span asp-validation-for="SpecialTagId" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="IsAvailable"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="IsAvailable" class="" type="checkbox" />
+                <span asp-validation-for="IsAvailable" class="text-danger"></span>
+            </div>
+        </div>
+
+        <br />
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Save" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    }
