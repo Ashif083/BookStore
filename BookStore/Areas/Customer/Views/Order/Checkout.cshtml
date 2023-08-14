@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-8">
                     <input type="hidden" asp-for="Id" />
-                    <input asp-for="Name" class="form-control" value="@Model.Name"/>
+                    <input asp-for="Name" class="form-control" value="@Model.Name" required/>
                     
                 </div>
 
@@ -41,7 +41,7 @@
                     <label asp-for="Phone"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="Phone" class="form-control" value="@Model.Phone" />
+                    <input asp-for="Phone" class="form-control" value="@Model.Phone" required/>
                    
                 </div>
 
@@ -52,7 +52,7 @@
                     <label asp-for="Email"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="Email" class="form-control" value="@Model.Email"/>
+                    <input asp-for="Email" class="form-control" value="@Model.Email" required/>
                    
                 </div>
 
