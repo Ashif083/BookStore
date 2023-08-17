@@ -37,5 +37,61 @@ namespace BookStore.Areas.Customer.Controllers
             }
             return RedirectToAction("ViewAllRoles");
         }
+
+        //Get
+        public async  Task<IActionResult> Edit(string id)
+        {
+            var obj= await _roleManager.FindByIdAsync(id);
+            if(obj==null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(string id, IdentityRole role)
+        {
+            var obj= await _roleManager.FindByIdAsync(id);
+            if(obj==null)
+            {
+                return NotFound();
+            }
+            obj.Name = role.Name;
+            var result= await _roleManager.UpdateAsync(obj);
+            if(result.Succeeded)
+            {
+                return RedirectToAction("ViewAllRoles");
+            }
+            return View(role);
+        }
+
+        //Get
+        public async Task<IActionResult> Delete(string id)
+        {
+            var obj = await _roleManager.FindByIdAsync(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<IActionResult> DeletePost(string id)
+        {
+            var obj = await _roleManager.FindByIdAsync(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            var result = await _roleManager.DeleteAsync(obj);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ViewAllRoles");
+            }
+            return View(obj);
+        }
+
     }
 }

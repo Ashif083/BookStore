@@ -1,5 +1,7 @@
 using BookStore.Data;
+using BookStore.Utility;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
 
@@ -11,8 +13,22 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
+builder.Services.AddDefaultIdentity<IdentityUser>().AddDefaultTokenProviders().AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
+//builder.Services.AddSingleton<IEmailSender, EmailSender>();
+var services = builder.Services;
+var configuration = builder.Configuration;
+
+services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+    googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+}).AddFacebook(facebookOptions =>
+{
+    facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
+    facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"];
+});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
