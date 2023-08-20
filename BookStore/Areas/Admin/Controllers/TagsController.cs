@@ -121,6 +121,11 @@ namespace BookStore.Areas.Admin.Controllers
 
         }
 
+        public IActionResult Adminview()
+        {
+            return PartialView("_AdminPanel");
+        }
+
 
 
     }

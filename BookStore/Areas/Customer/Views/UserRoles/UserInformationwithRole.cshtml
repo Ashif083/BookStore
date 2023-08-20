@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "User and Roles";
+}
+
+<div class="row pt-4">
+    <div class="col-6"><h1 class="text-secondary"><i class="fa-solid fa-list"></i>&nbsp;User and Role</h1></div>
+    @*    <div class="col-6 text-end"><a asp-controller="UserRoles" asp-action="Create" class="btn btn-primary" style="color: white;">&#x271A;&nbsp; Add New</a></div>
+    *@    <br />
+</div>
+<br />
+<table class="table table-bordered table-striped" style="width: 100%;">
+    <thead>
+        <tr class="table-secondary">
+            <th>User Name</th>
+            <th>Role Name</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in ViewBag.UserRoles)
+        {
+            <tr>
+                <td>@item.UserName</td>
+                <td>@item.RoleName</td>
+
+                <td>
+                    <a asp-controller="UserRoles" asp-action="Assign" asp-route-userId="@item.UserId" asp-route-roleId="@item.RoleId" class="btn btn-warning">Change Role</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+

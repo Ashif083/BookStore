@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe.Checkout;
+using BookStore.Areas.Customer.Model;
+using System.Diagnostics;
 
 namespace BookStore.Areas.Customer.Controllers
 {
@@ -51,16 +53,24 @@ namespace BookStore.Areas.Customer.Controllers
                     orderDetails.BookId = item.Id;
 
                     order.OrderDetails.Add(orderDetails);
+
+                    var bookToUpdate = await _db.Books.FirstOrDefaultAsync(b => b.Id == item.Id);
+                    if (bookToUpdate != null)
+                    {
+                        bookToUpdate.AvailableQuantity -= 1;
+                    }
                 }
             }
             order.OrderNo = GetOrderNo();
+            var userId = _userManager.GetUserId(User);
+            order.CustomerId = userId;
             _db.Order.Add(order);
             await _db.SaveChangesAsync();
-            
+
             var domain = "https://localhost:44355/";
             var options = new SessionCreateOptions
             {
-                SuccessUrl = domain + $"Customer/Order/OrderDetails/{order.Id}", 
+                SuccessUrl = domain + $"Customer/Order/OrderDetails/{order.Id}",
                 CancelUrl = domain + $"Checkout/Login",
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment"
@@ -91,7 +101,7 @@ namespace BookStore.Areas.Customer.Controllers
             Response.Headers.Add("Location", session.Url);
             HttpContext.Session.Set("book", new List<Books>());
             return new StatusCodeResult(303);
-            
+
         }
 
         public string GetOrderNo()
@@ -110,5 +120,42 @@ namespace BookStore.Areas.Customer.Controllers
 
             return View(order);
         }
+
+
+
+        public IActionResult OrderHistory()
+        {
+            var userId = _userManager.GetUserId(User); // Get the user's ID
+            var orders = _db.Order
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Books)
+                .Where(o => o.CustomerId == userId)
+                .ToList();
+
+            return View(orders);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminOrderHistory(string month)
+        {
+            var ordersQuery = _db.Order
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Books)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(month))
+            {
+                int selectedMonth = int.Parse(month);
+                ordersQuery = ordersQuery.Where(o => o.OrderDate.Month == selectedMonth);
+            }
+
+            var orders = ordersQuery.ToList();
+
+            return View(orders);
+        }
+
+
+
     }
+
 }

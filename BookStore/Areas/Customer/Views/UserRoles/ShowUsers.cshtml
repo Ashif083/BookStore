@@ -1,0 +1,43 @@
+﻿@using BookStore.Models
+@model IEnumerable<ApplicationUsers>
+@{
+     ViewData["Title"] = "Show-Roles";
+}
+
+<div class="row pt-4">
+    <div class="col-6"><h1 class="text-secondary"><i class="fa-solid fa-user"></i>&nbsp;Users</h1></div>
+@*    <div class="col-6 text-end"><a asp-controller="UserRoles" asp-action="AddUser" class="btn btn-primary" style="color: white;">&#x271A;&nbsp; Add New</a></div>
+*@    <br />
+</div>
+<br />
+
+<table class="table table-bordered table-striped" style="width: 100%;">
+    <thead>
+        <tr class="table-secondary">
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone No</th>
+            <th>Address</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.FirstName @item.LastName</td>
+                <td>@item.Email</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Address</td>
+                <td>
+                    <a asp-controller="UserRoles" asp-action="DeleteUser" asp-route-id="@item.Id" style="margin-right: 6px" class="btn btn-danger float-end"><i class="fa-solid fa-trash"></i></a>
+                    <a asp-controller="UserRoles" asp-action="EditUser" asp-route-id="@item.Id" style="margin-right: 6px; color: white;" class="btn btn-info float-end">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

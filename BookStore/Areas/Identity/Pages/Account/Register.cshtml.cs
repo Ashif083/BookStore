@@ -120,8 +120,11 @@ namespace BookStore.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+            //[Required]
+            //public string? Role { get; set; }
+
             [Required]
-            public string? Role { get; set; }
+            public string Role { get; set; } = "Customer";
 
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
@@ -134,14 +137,7 @@ namespace BookStore.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            Input = new InputModel()
-            {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
-                {
-                    Text = i,
-                    Value = i
-                })
-            };
+            Input = new InputModel();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -207,7 +203,7 @@ namespace BookStore.Areas.Identity.Pages.Account
             try
             {
                 return Activator.CreateInstance<ApplicationUsers>();
-               // return Activator.CreateInstance<IdentityUser>();
+                // return Activator.CreateInstance<IdentityUser>();
             }
             catch
             {

@@ -80,9 +80,9 @@ namespace BookStore.Areas.Admin.Controllers
                 {
                     books.Image = "Images/no-image.jpg";
                 }
-                _db.Books.Add(books);
-                TempData["save"] = "New Book has been Added";
+                _db.Books.Add(books);               
                 _db.SaveChanges();
+                TempData["save"] = "New Book has been Added";
                 return RedirectToAction("Index");
             }
             return View(books);
@@ -115,9 +115,9 @@ namespace BookStore.Areas.Admin.Controllers
                 {
                     books.Image = "Images/no-image.JPG";
                 }
-                _db.Books.Update(books);
-                TempData["edit"] = "Edited Successfully";
+                _db.Books.Update(books);                
                 await _db.SaveChangesAsync();
+                TempData["edit"] = "Edited Successfully";
                 return RedirectToAction(nameof(Index));
             }
 

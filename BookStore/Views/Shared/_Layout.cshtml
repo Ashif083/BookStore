@@ -39,7 +39,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
 
-                         <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa-solid fa-house"></i> &nbsp;Home</a>
                         </li>
 
@@ -48,20 +48,19 @@
                             if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="Admin" asp-controller="BookTypes" asp-action="Index"><i class="fa-solid fa-clipboard-list"></i>&nbsp;Genre</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="Admin" asp-controller="Tags" asp-action="Index"><i class="fa-solid fa-tags"></i>&nbsp;Tags</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="Admin" asp-controller="Books" asp-action="Index"><i class="fa-solid fa-book"></i> &nbsp;Books</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" asp-area="Customer" asp-controller="UserRoles" asp-action="ViewAllRoles">Roles</a>
+                                    <a class="nav-link text-white" asp-area="Admin" asp-controller="Tags" asp-action="Adminview"><i class="fa-solid fa-user"></i> &nbsp;Admin</a>
                                 </li>
                             }
 
+                            if (!User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-area="Customer" asp-controller="Order" asp-action="OrderHistory"><i class="fa-solid fa-clipboard-list"></i> &nbsp;Orders</a>
+                                </li>
+                            }
                         }
+
+
 
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="Customer" asp-controller="Home" asp-action="Cart"><i class="fa-solid fa-cart-shopping" style="color: #f57e0f;"></i>&nbsp;(@count)</a>
@@ -79,12 +78,20 @@
             @RenderBody()
         </main>
     </div>
+    @if (IsSectionDefined("hidefooter"))
+    {
+        @RenderSection("hidefooter", false)
+    }
+    else
+    {
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2023 - BookStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+    }
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - BookStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

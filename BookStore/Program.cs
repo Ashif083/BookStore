@@ -3,6 +3,7 @@ using BookStore.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>().AddDefaultTokenProviders().AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
 //builder.Services.AddSingleton<IEmailSender, EmailSender>();
+
 var services = builder.Services;
 var configuration = builder.Configuration;
 
